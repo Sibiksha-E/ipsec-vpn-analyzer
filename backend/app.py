@@ -415,7 +415,36 @@ def metrics():
 
 @app.get("/health")
 def health():
-    return {"ok": True, "captures": db_count()}
+    try:
+        n = db_count()
+    except Exception as e:
+        return {"ok": False, "captures": 0, "db_error": f"{type(e).__name__}: {e}", "db_path": DB_PATH}
+    return {"ok": True, "captures": n}
+
+@app.get("/api/debug")
+def debug():
+    import sys
+    def have(mod):
+        try:
+            m = __import__(mod)
+            return getattr(m, "__version__", "installed")
+        except Exception as e:
+            return f"MISSING: {e}"
+    sp = os.path.join(SAMPLE_DIR)
+    try:
+        samples = sorted(os.listdir(sp)) if os.path.isdir(sp) else []
+    except Exception as e:
+        samples = [f"LIST FAIL: {e}"]
+    try:
+        open(os.path.join(STORE_DIR, ".w"), "w").close()
+        store = "writable"
+    except Exception as e:
+        store = f"READ-ONLY: {e}"
+    return {"cwd": os.getcwd(), "root": ROOT, "python": sys.version.split()[0],
+            "fastapi": have("fastapi"), "scapy": have("scapy"),
+            "sklearn": have("sklearn"), "pandas": have("pandas"), "joblib": have("joblib"),
+            "db_path": DB_PATH, "store": store, "samples_dir": SAMPLE_DIR,
+            "samples": samples[:15], "model": os.path.isfile(MODEL_PATH)}
 
 SAMPLE_DIR = os.path.join(ROOT, "samples")
 
