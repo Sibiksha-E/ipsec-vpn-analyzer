@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 
-const API = "http://127.0.0.1:8000";
+const API = (import.meta.env.VITE_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
 const SEV = { high: "#dc2626", medium: "#d97706", info: "#0284c7", low: "#16a34a" };
 const RISK_STYLE = {
   HIGH: { bg: "#dc2626", plain: "Needs attention now. Something important looks weak." },

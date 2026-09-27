@@ -222,9 +222,12 @@ def assess(observed, meta=DEFAULT_META):
     return {"capture_id": observed.get("capture_id"), "risk": risk, "findings": f}
 
 app = FastAPI(title="IPsec Analyzer MVP")
+origins = [o.strip() for o in
+           os.environ.get("ALLOWED_ORIGINS",
+                          "http://127.0.0.1:5173,http://localhost:5173").split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"],
+    allow_origins=origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
