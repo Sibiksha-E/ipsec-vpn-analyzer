@@ -1,0 +1,97 @@
+{
+ "accuracy": 0.824,
+ "labels": [
+  "bulk",
+  "handshake",
+  "ping",
+  "video",
+  "voip",
+  "web"
+ ],
+ "confusion": [
+  [
+   10,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  [
+   0,
+   0,
+   2,
+   0,
+   0,
+   0
+  ],
+  [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  [
+   0,
+   0,
+   0,
+   0,
+   12,
+   0
+  ],
+  [
+   5,
+   1,
+   0,
+   0,
+   0,
+   4
+  ]
+ ],
+ "per_class": {
+  "bulk": {
+   "test_windows": 10,
+   "recall": 1.0
+  },
+  "handshake": {
+   "test_windows": 0,
+   "recall": 0
+  },
+  "ping": {
+   "test_windows": 2,
+   "recall": 1.0
+  },
+  "video": {
+   "test_windows": 0,
+   "recall": 0
+  },
+  "voip": {
+   "test_windows": 12,
+   "recall": 1.0
+  },
+  "web": {
+   "test_windows": 10,
+   "recall": 0.4
+  }
+ },
+ "held_out_files": [
+  "sample_005_tunnel_aes256.pcap",
+  "sample_007_strong_ikev2.pcap",
+  "sample_012_web2.pcap",
+  "sample_013_voip2.pcap",
+  "sample_014_bulk2.pcap"
+ ],
+ "train_windows": 56,
+ "test_windows": 34,
+ "method": "held-out whole files; handshake excluded (1 file only)"
+}

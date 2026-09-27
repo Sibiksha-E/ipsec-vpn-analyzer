@@ -1,0 +1,9 @@
+venv/
+dashboard/node_modules/
+dashboard/dist/
+captures.db
+backend/__pycache__/
+*.pyc
+/tmp/
+.env
+*.log
