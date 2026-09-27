@@ -6,9 +6,10 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from scapy.all import rdpcap, IP, ESP, UDP, TCP
 
-STORE_DIR = "/tmp/ipsec-uploads"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STORE_DIR = os.environ.get("STORE_DIR", "/tmp/ipsec-uploads")
 os.makedirs(STORE_DIR, exist_ok=True)
-DB_PATH = os.path.expanduser("~/ipsec-analyzer/captures.db")
+DB_PATH = os.path.join(ROOT, "captures.db")
 
 def _db():
     import sqlite3
@@ -283,7 +284,7 @@ def get_packets(cid: str, limit: int = 300):
     except Exception as e:
         raise HTTPException(400, f"packet read failed: {e}")
 
-MODEL_PATH = os.path.expanduser("~/ipsec-analyzer/ml/rf_v1.joblib")
+MODEL_PATH = os.path.join(ROOT, "ml", "rf_v1.joblib")
 _model = None
 def get_model():
     global _model
@@ -407,7 +408,7 @@ def summary(cid: str):
 
 @app.get("/api/metrics")
 def metrics():
-    p = os.path.expanduser("~/ipsec-analyzer/ml/metrics.json")
+    p = os.path.join(ROOT, "ml", "metrics.json")
     if not os.path.isfile(p):
         raise HTTPException(404, "model not trained yet")
     return json.load(open(p))
@@ -416,7 +417,7 @@ def metrics():
 def health():
     return {"ok": True, "captures": db_count()}
 
-SAMPLE_DIR = os.path.expanduser("~/ipsec-analyzer/samples")
+SAMPLE_DIR = os.path.join(ROOT, "samples")
 
 @app.get("/api/samples")
 def list_samples():
