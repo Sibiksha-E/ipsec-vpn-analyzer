@@ -7,4 +7,5 @@ COPY backend/ ./backend/
 COPY ml/rf_v1.joblib ml/metrics.json ./ml/
 COPY samples/ ./samples/
 ENV HOME=/root
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--app-dir", "/app/backend"]
+EXPOSE 8000
+CMD uvicorn app:app --host 0.0.0.0 --port ${PORT:-8000} --app-dir /app/backend
