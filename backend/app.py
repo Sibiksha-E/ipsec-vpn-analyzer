@@ -9,7 +9,7 @@ from scapy.all import rdpcap, IP, ESP, UDP, TCP
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STORE_DIR = os.environ.get("STORE_DIR", "/tmp/ipsec-uploads")
 os.makedirs(STORE_DIR, exist_ok=True)
-DB_PATH = os.path.join(ROOT, "captures.db")
+DB_PATH = os.path.join(STORE_DIR, "captures.db")
 
 def _db():
     import sqlite3
